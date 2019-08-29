@@ -7,10 +7,12 @@ class Ball {
     this.ctx = game.ctx
     this.x = this.canvas.width / 2;
     this.y = this.canvas.height / 2;
-    this.dx = -5;
-    this.dy = 6;
-    this.radius = 10;
-    this.color = "white";
+    this.dx =  -5;
+    this.dy =  7;
+    this.radius = 9;
+    this.color = "#df00fc";
+    //this.sound = new Sound("./Sounds/Sound Touch.mp3")
+    this.hitPaddle = document.getElementById("hitPaddle");
   }
 
   update() {
@@ -21,35 +23,49 @@ class Ball {
     let isTouchingPersonPaddle = false;
     const personPaddle = this.game.paddle;
 
-    const withInX = this.x <= personPaddle.width;
-    const withinY = this.y >= personPaddle.y && this.y <= personPaddle.y + personPaddle.height;
+    const withInX = this.x < personPaddle.width;
+    const withinY = this.y > personPaddle.y && this.y <= personPaddle.y + personPaddle.height;
     
     isTouchingPersonPaddle = withInX && withinY;
 
-    // Find if ball is hitting computed paddle
-    let isTouchingComputerPaddle = false;
-    // const personPaddle = this.game.paddle;
 
-    // const withInX = this.x <= personPaddle.width;
-    // const withinY = this.y >= personPaddle.y && this.y <= personPaddle.y + personPaddle.height;
+    // Find if ball is hitting computer paddle
     
-    // isTouchingPersonPaddle = withInX && withinY;
+    let isTouchingComputerPaddle = false;
+    const computerPaddle = this.game.computer;
+  
+    const withInXcomputer = this.x > this.canvas.width - computerPaddle.width; 
+    const withInYcomputer = this.y >= computerPaddle.y && this.y <= computerPaddle.y + computerPaddle.height;
+    
+    isTouchingComputerPaddle = withInXcomputer && withInYcomputer;
+    //console.log(isTouchingComputerPaddle)
 
 
     if (newX < 0) {
       // We lost
-    } else if (newX > this.canvas.width) {
+      this.game.scoreboard.scores.computer += 1;
+      this.game.reset();
+    } else if (newX > this.canvas.width ) {
       // Computer lost
+      this.game.scoreboard.scores.player += 1;
+      this.game.reset();
     } else if (isTouchingPersonPaddle) {
+      this.bounceX();
+    } else if (isTouchingComputerPaddle) {
       this.bounceX();
     } else if (false) {
       this.bounceX();
     }
 
-    if (newY < 0) {
+    if (newY <= this.radius / 2) {
       this.bounceY();
-    } else if (newY > this.canvas.height) {
+      // this.hitPaddle.play()
+      //this.sound.play()      
+
+    } else if (newY > this.canvas.height - this.radius / 2) {
       this.bounceY();
+      // this.hitPaddle.play()
+     //this.sound.play()
     }
 
     this.x += this.dx;

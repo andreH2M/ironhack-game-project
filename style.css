@@ -1,2 +1,47 @@
+body {
+  padding: 00px 30px;
+  text-align: center;
+}
 
+.game-intro {
+  float: right;
+  padding: 9% 0%;
+}
+
+.game-intro p {
+  font-size: 18px;
+  font-family: "Verdana"
+}
+
+.logo-img {
+  width: 170px;
+}
+
+.arrows-img {
+  width: 150px;
+}
+
+body button {
+  font-size: 20px;
+  background-color: #a032a8;
+  color: #fff;
+  padding: 10px 30px;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 5px;
+  margin-bottom: 0px;
+  margin-top:05px;
+
+}
+
+h1 {
+  color : purple;
+  font-family : Georgia, 'Times New Roman', Times, serif;
+  font-size: 25px;
+}
+
+#game-board {
+    float: left;
+    padding: 20px 0px;
+}
 

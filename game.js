@@ -6,21 +6,25 @@ class Game {
         this.ctx = canvas.getContext("2d")
         this.canvas.height = canvas.height;
         this.canvas.width =canvas.width;
-        //let computer = GrowingComputerPaddle(canvas);
-        //let player = HumanPlayerPaddle;
-
         this.callbacks = {
-            up: () => {
-                this.paddle.move('up');
+            up: (active) => {
+                this.paddle.move('up', active);
             },
-            down: () => {
-                this.paddle.move('down');
+            down: (active) => {
+                this.paddle.move('down', active);
             }
         }
 
         this.control = new Control(this.callbacks);
         // this.paddle = new Paddle(this)
         this.paddle = new Human(this)
+        this.computer = new Computer(this)
+        this.ball = new Ball(this)
+        this.scoreboard = new Scoreboard(this);
+        this.bgm = document.getElementById("bgm");
+    }
+
+    reset () {
         this.computer = new Computer(this)
         this.ball = new Ball(this)
     }
@@ -55,26 +59,14 @@ class Game {
         // }
     }
     
-     //Colision 
-     
-     collidedWithBall () {
-         if (player.collidedWithBall()) {  // right paddle
-             this.ball.bounceX();
-         }
-         if (computer.collidedWithBall()) {  // left paddle
-             ball.bounceX();
-         }
-     }
 
-    whoIsTheWinner() {
-        const winner = scoreboard.whoIsTheWinner;
-        console.log(`${winner} wins!`);
-    }
+    
     
     renderBackground () {
+        this.bgImage = new Image()
+        this.bgImage.src = "/IMG/—Pngtree—space background_3591568.png"
         this.ctx.save();
-        this.ctx.fillStyle = "blue";
-        this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+        this.ctx.drawImage (this.bgImage, 0, 0, canvas.width, canvas.height )
         this.ctx.restore();
     }
 
@@ -83,19 +75,32 @@ class Game {
         this.ball.render();
         this.paddle.render();
         this.computer.render();
-        // this.scoreboard.render()
+        this.scoreboard.render()
+
     }
 
     loop () {
-        // Computes all of the game logic
+        if (this.scoreboard.isThereAWinner()){
+           this.whoIsTheWinner()
+        }
+        
         this.ball.update();
-        // this.paddle.update();
+        this.paddle.update();
+        //this.bgm.play()
+        this.computer.runIntelligence();
         this.computer.update();
-        // Renders all of the game state
+        //this.audio();   try to install audio
         this.render();
         // Runs loop again
+        //checking score
+        //this.scoreboard.checkScores()
         window.requestAnimationFrame(() => {
             this.loop();
         });
+    }
+
+    whoIsTheWinner() {
+        const winner = this.scoreboard.whoIsTheWinner();
+        console.log(`${winner} wins!`);
     }
 }

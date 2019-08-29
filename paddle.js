@@ -3,29 +3,37 @@ class Paddle {
     this.game = game;
     this.side = side;
     this.ctx = game.ctx
-    // this.x = 0;
-    this.y = 30;
-    this.dy = 50;
-    this.height = 300;
-    this.width = 15;
-    this.color = "white"
+    this.x = 0;
+    this.y = 250;
+    this.dy = 7;
+    this.height = 150;
+    this.width = 14;
+    this.color = "#df00fc"
+    this.pressing = {
+      up: false,
+      down: false
+    }
   }
 
-  move (direction) {
-    if (direction === 'up') {
+  update () {
+    if (this.pressing.up) {
       this.y -= this.dy;
-    } else {
+    } else if (this.pressing.down) {
       this.y += this.dy;
     }
+  }
+
+  move (direction, active) {
+    this.pressing[direction] = active;
   }
 
   render() {
     const side = this.side;
     let x;
     if (side === 'left') {
-      x = 0;
+      x = 1;
     } else {
-      x = this.game.canvas.width - this.width;
+      x = this.game.canvas.width - this.width -1
     }
     this.ctx.save();
     this.ctx.fillStyle = this.color;

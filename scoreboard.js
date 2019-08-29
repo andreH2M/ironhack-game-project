@@ -1,62 +1,60 @@
+class Scoreboard {
+    constructor(game) {
+        this.game = game;
+        this.canvas = game.canvas
+        this.ctx = game.ctx
+        this.width = this.canvas.width;
+        this.ball = this.game.ball
+        this.goal = 5
+        this.scores = {
+            player: 0,
+            computer: 0
+        }
+    }
 
+    render(ctx) {
+        const scores = this.scores;
+        const displayedText = ` Player: ${scores.player}             Vs          Computer: ${scores.computer}`
+        this.ctx.save();
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = "30px Arial";
+        this.ctx.fillText(displayedText, 150, 60);
+        this.ctx.restore();
+    }
 
-/* class Scoreboard {
-    constructor (game) {
- */
+    /* const playerScores () => {
+        scores.player += 1;
+    }
 
-      const Scoreboard = (game) => {
-        
-      let scores = {
-          player:0,
-          computer:0
-      }
+    const computerScores = () => {
+        scores.computer += 1;
+    } */
 
-      const render = (ctx) => {
-          const displayedText = `
-          player: ${scores.player}
-          computer: ${scores.computer}
-          `
+    checkScores() {
+        if (this.ball.x <= 0) {
+            this.scores.computer += 1;
+        }
+        if (this.ball.x >= this.width) {
+            this.scores.player += 1;
+        }
+
+    }
+
+    isThereAWinner() {
+        console.log(this.scores.player === this.goal || this.scores.computer === this.goal)
+        return this.scores.player === this.goal || this.scores.computer === this.goal;
+    }
     
 
-      ctx.save();
-      ctx.font = "40px Arial";
-      ctx.fillText(displayedText, 30, 40);
-      ctx.restore();
+    whoIsTheWinner() {
+        this.reset()
+        return this.scores.player === this.goal ? "Player" : "Computer"
     }
 
-     const playerScores = () => {
-         scores.player += 1;
-     }
-
-     const computerScores = () => {
-         scores.computer +=1;
-     }
-
-     const isThereAWinner = () => {
-         return scores.player === goal || scores.computer ===goal;
-     }
-
-     const whoIsTheWinner = () => {
-         if (!isThereAWinner()) return "No one yet";
-         return scores.player === goal ? "Player" : "Computer"
-     }
-
-     const reset = () => {
-         scores = {
-             player: 0,
-             computer:0, 
-         }
-
-         return {
-             playerScores: playerScores,
-             computerScores: computerScores,
-             reset: reset,
-             isThereAWinner:isThereAWinner,
-             whoIsTheWinner:whoIsTheWinner,
-             render: render
-         }
-     }
-
-
+    reset() {
+        this.scores = {
+            player: 0,
+            computer: 0,
+        }
     }
-
+}
