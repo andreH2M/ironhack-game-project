@@ -1,7 +1,7 @@
 class Computer extends Paddle {
   constructor (game) {
     super(game, 'right');
-    this.dy = 1.5;
+    this.dy = 3;
   }
 
   runIntelligence () {
@@ -15,8 +15,7 @@ class Computer extends Paddle {
     } else {
       this.move('down', true);
     }
-    // with this command computer paddle will follow the ball in Y way
-    //let direction = 'bottom';
-    //this.move(direction);
+   
+    
   }
 }

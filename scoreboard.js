@@ -5,7 +5,8 @@ class Scoreboard {
         this.ctx = game.ctx
         this.width = this.canvas.width;
         this.ball = this.game.ball
-        this.goal = 5
+        this.goal = 2
+        this.winner = document.getElementById("winner");
         this.scores = {
             player: 0,
             computer: 0
@@ -14,22 +15,15 @@ class Scoreboard {
 
     render(ctx) {
         const scores = this.scores;
-        const displayedText = ` Player: ${scores.player}             Vs          Computer: ${scores.computer}`
+        const displayedText = ` Player: ${scores.player}  ----  SCOREBOARD  ----  Computer: ${scores.computer}`
         this.ctx.save();
-        this.ctx.fillStyle = 'white';
+        this.ctx.fillStyle = "#d12cd1";
         this.ctx.font = "30px Arial";
-        this.ctx.fillText(displayedText, 150, 60);
+        this.ctx.fillText(displayedText, 70, 60);
         this.ctx.restore();
     }
 
-    /* const playerScores () => {
-        scores.player += 1;
-    }
-
-    const computerScores = () => {
-        scores.computer += 1;
-    } */
-
+   
     checkScores() {
         if (this.ball.x <= 0) {
             this.scores.computer += 1;
@@ -48,7 +42,10 @@ class Scoreboard {
 
     whoIsTheWinner() {
         this.reset()
-        return this.scores.player === this.goal ? "Player" : "Computer"
+        return this.scores.player === this.goal ? "Player" : "Computer";
+        this.winner.play()
+        
+        
     }
 
     reset() {

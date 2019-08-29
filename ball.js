@@ -7,13 +7,21 @@ class Ball {
     this.ctx = game.ctx
     this.x = this.canvas.width / 2;
     this.y = this.canvas.height / 2;
-    this.dx =  -5;
-    this.dy =  7;
+    this.dx =  -4;
+    this.dy =  4;
     this.radius = 9;
     this.color = "#df00fc";
-    //this.sound = new Sound("./Sounds/Sound Touch.mp3")
     this.hitPaddle = document.getElementById("hitPaddle");
+    this.lostPoint = document.getElementById("lostPoint")
   }
+
+  playSound() {
+    if (!this.hitPaddle.paused){
+      this.hitPaddle.currentTime = 0
+    }
+    this.hitPaddle.play()
+  }
+
 
   update() {
     const newX = this.x + this.dx;
@@ -27,7 +35,7 @@ class Ball {
     const withinY = this.y > personPaddle.y && this.y <= personPaddle.y + personPaddle.height;
     
     isTouchingPersonPaddle = withInX && withinY;
-
+    if(isTouchingPersonPaddle) this.playSound()
 
     // Find if ball is hitting computer paddle
     
@@ -38,16 +46,20 @@ class Ball {
     const withInYcomputer = this.y >= computerPaddle.y && this.y <= computerPaddle.y + computerPaddle.height;
     
     isTouchingComputerPaddle = withInXcomputer && withInYcomputer;
+    if(isTouchingComputerPaddle) this.playSound()
+
     //console.log(isTouchingComputerPaddle)
 
 
     if (newX < 0) {
       // We lost
       this.game.scoreboard.scores.computer += 1;
+      this.lostPoint.play()
       this.game.reset();
     } else if (newX > this.canvas.width ) {
       // Computer lost
       this.game.scoreboard.scores.player += 1;
+      this.lostPoint.play()
       this.game.reset();
     } else if (isTouchingPersonPaddle) {
       this.bounceX();
@@ -59,13 +71,13 @@ class Ball {
 
     if (newY <= this.radius / 2) {
       this.bounceY();
-      // this.hitPaddle.play()
-      //this.sound.play()      
+   
+           
 
     } else if (newY > this.canvas.height - this.radius / 2) {
       this.bounceY();
-      // this.hitPaddle.play()
-     //this.sound.play()
+   
+      
     }
 
     this.x += this.dx;
@@ -79,25 +91,10 @@ class Ball {
 
   // invert direction on right/left after colision
   bounceX() {
-    this.dx = -1 * this.dx;
-    // this.dx *= -1;
-  }
+    this.dx = -1 * this.dx ;
+      }
 
-  // hitTop() {
-  //   this.y < this.radius;
-  // }
-
-  // hitBottom() {
-  //   this.y > this.canvas.height - this.radius;
-  // }
-
-  // hitLeft() {
-  //   this.x < this.radius;
-  // }
-
-  // hitRight() {
-  //   this.x > canvas.height - this.radius;
-  // }
+ 
 
   render() {
 

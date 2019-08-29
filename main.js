@@ -1,14 +1,13 @@
 const canvas = document.querySelector('canvas');
 const game = new Game(canvas);
-
+let button = document.querySelector('button');
 
 window.addEventListener('load', () => {
-  game.startGame();
+  button.addEventListener('click', function () {
+    game.startGame();
+  }); 
 });
 
 
-/* //const $button = document.querySelector('button');
 
-$button.addEventListener('click', function () {
-  game.startGame();
-}); */
+  ;

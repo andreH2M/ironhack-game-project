@@ -16,12 +16,13 @@ class Game {
         }
 
         this.control = new Control(this.callbacks);
-        // this.paddle = new Paddle(this)
         this.paddle = new Human(this)
         this.computer = new Computer(this)
         this.ball = new Ball(this)
         this.scoreboard = new Scoreboard(this);
         this.bgm = document.getElementById("bgm");
+        
+        this.gameStatus  = "play"
     }
 
     reset () {
@@ -30,33 +31,10 @@ class Game {
     }
 
     startGame() {
-        this.loop();
-
-        // this.ball.render();
-        // // bounce top and bottom
-        // if (ball.hitTop() || ball.hitBottom()) {
-        //     ball.bounceY ();
-        // }
-    
-        // // reset game if out of bonds
-
-        // if (ball.hitLeft() || ball.hitRight()) {
-        //     if(ball.hitLeft()) {
-        //         scoreboard.computerScores();
-        //     }
-        //     if (ball.hitRight()) {
-        //         scoreboard.playerScores();
-        //     }
-        //     ball = Ball(game)
-        //     player = HumanPlayerPaddle (canvas, ball)
-        //     computer = GrowingComputerPaddle (canvas, ball)
-        // }
-        
-        // // paddle boundaries
-
-        // if (computer.hitTop()|| computer.hitBottom() ) {
-        //     computer.bounceY();
-        // }
+        this.gameStatus = "play"
+        this.scoreboard.reset()
+        this.reset ()
+        this.loop()
     }
     
 
@@ -81,16 +59,18 @@ class Game {
 
     loop () {
         if (this.scoreboard.isThereAWinner()){
-           this.whoIsTheWinner()
+            this.gameStatus = "endgame"
+            this.drawFinalScreen ()
+           //this.whoIsTheWinner()
         }
         
+       else if(this.gameStatus === "play"){ 
         this.ball.update();
         this.paddle.update();
         //this.bgm.play()
         this.computer.runIntelligence();
         this.computer.update();
-        //this.audio();   try to install audio
-        this.render();
+        this.render()};
         // Runs loop again
         //checking score
         //this.scoreboard.checkScores()
@@ -99,8 +79,17 @@ class Game {
         });
     }
 
-    whoIsTheWinner() {
+   /*  whoIsTheWinner() {
+        
+        
+    } */
+    
+    drawFinalScreen () {
         const winner = this.scoreboard.whoIsTheWinner();
-        console.log(`${winner} wins!`);
-    }
+        this.ctx.fillStyle = "purple"
+        this.ctx.fillRect(200,250,400,200)
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = '32px Helvetica';
+        this.ctx.fillText(`${winner} wins!`.toUpperCase(), 260, 360);
+    } 
 }
