@@ -1,7 +1,7 @@
 class Computer extends Paddle {
   constructor (game) {
     super(game, 'right');
-    this.dy = 2.5;
+    this.dy = 2.2;
   }
 
   runIntelligence () {
