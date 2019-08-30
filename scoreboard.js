@@ -6,11 +6,8 @@ class Scoreboard {
         this.width = this.canvas.width;
         this.ball = this.game.ball
         this.goal = 2
-        this.winner = document.getElementById("winner");
-        this.scores = {
-            player: 0,
-            computer: 0
-        }
+        this.winnerSound = document.getElementById("winner");
+        this.reset();
     }
 
     render(ctx) {
@@ -35,20 +32,16 @@ class Scoreboard {
     }
 
     isThereAWinner() {
-        console.log(this.scores.player === this.goal || this.scores.computer === this.goal)
-        return this.scores.player === this.goal || this.scores.computer === this.goal;
-    }
-    
-
-    whoIsTheWinner() {
-        this.reset()
-        return this.scores.player === this.goal ? "Player" : "Computer";
-        this.winner.play()
-        
-        
+        // console.log(this.scores.player === this.goal || this.scores.computer === this.goal)
+        if(this.scores.player === this.goal || this.scores.computer === this.goal) {
+            this.winner = this.scores.player === this.goal ? "Player" : "Computer";
+            this.winnerSound.play();
+        }
+        return !!this.winner;
     }
 
     reset() {
+        this.winner = 0;
         this.scores = {
             player: 0,
             computer: 0,

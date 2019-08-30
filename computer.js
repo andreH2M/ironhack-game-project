@@ -1,7 +1,7 @@
 class Computer extends Paddle {
   constructor (game) {
     super(game, 'right');
-    this.dy = 3;
+    this.dy = 2.5;
   }
 
   runIntelligence () {
@@ -14,8 +14,6 @@ class Computer extends Paddle {
       this.move('up', true);
     } else {
       this.move('down', true);
-    }
-   
-    
+    } 
   }
 }

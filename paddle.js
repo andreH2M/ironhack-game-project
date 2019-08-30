@@ -16,7 +16,6 @@ class Paddle {
   }
 
   update () {
-    
     if (this.pressing.up && this.y >= 0) {
       this.y -= this.dy;
     } else if (this.pressing.down && this.y < this.game.canvas.height - this.height) {
